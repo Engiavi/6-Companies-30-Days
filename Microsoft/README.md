@@ -151,3 +151,61 @@ So, the winner is `res + 1 = 2 + 1 = 3`.
 So, the winner is `res + 1 = 0 + 1 = 1`.
 
 **Output:** `1`
+
+# Q3:- Image Smoother
+An image smoother is a filter of the size 3 x 3 that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).
+
+### Approach:
+1. Initialize the dimensions `m` and `n` of the image.
+2. Create a new 2D vector `image` of the same dimensions to store the smoothed values.
+3. Iterate through each cell `(i, j)` of the image.
+4. For each cell, initialize `sum` and `cnt` to 0.
+5. Iterate through the 3x3 grid centered at `(i, j)` using two nested loops with offsets `k` and `l` ranging from -1 to 1.
+6. For each cell in the 3x3 grid, check if it is within the bounds of the image.
+7. If it is within bounds, add its value to `sum` and increment `cnt`.
+8. After processing the 3x3 grid, set `image[i][j]` to the integer division of `sum` by `cnt`.
+9. Return the smoothed image.
+
+### Dry Run Examples
+
+#### Example 1:
+
+**Input:**
+- `img = [[1,1,1],[1,0,1],[1,1,1]]`
+
+**Steps:**
+1. Initialize `m = 3`, `n = 3`.
+2. Create `image = [[0,0,0],[0,0,0],[0,0,0]]`.
+3. Iterate through each cell `(i, j)`:
+   - For `(0, 0)`: sum = 3, cnt = 4, image[0][0] = 3 // 4 = 0
+   - For `(0, 1)`: sum = 4, cnt = 6, image[0][1] = 4 // 6 = 0
+   - For `(0, 2)`: sum = 3, cnt = 4, image[0][2] = 3 // 4 = 0
+   - For `(1, 0)`: sum = 4, cnt = 6, image[1][0] = 4 // 6 = 0
+   - For `(1, 1)`: sum = 8, cnt = 9, image[1][1] = 8 // 9 = 0
+   - For `(1, 2)`: sum = 4, cnt = 6, image[1][2] = 4 // 6 = 0
+   - For `(2, 0)`: sum = 3, cnt = 4, image[2][0] = 3 // 4 = 0
+   - For `(2, 1)`: sum = 4, cnt = 6, image[2][1] = 4 // 6 = 0
+   - For `(2, 2)`: sum = 3, cnt = 4, image[2][2] = 3 // 4 = 0
+
+**Output:** `[[0,0,0],[0,0,0],[0,0,0]]`
+
+#### Example 2:
+
+**Input:**
+- `img = [[100,200,100],[200,50,200],[100,200,100]]`
+
+**Steps:**
+1. Initialize `m = 3`, `n = 3`.
+2. Create `image = [[0,0,0],[0,0,0],[0,0,0]]`.
+3. Iterate through each cell `(i, j)`:
+   - For `(0, 0)`: sum = 550, cnt = 4, image[0][0] = 550 // 4 = 137
+   - For `(0, 1)`: sum = 850, cnt = 6, image[0][1] = 850 // 6 = 141
+   - For `(0, 2)`: sum = 550, cnt = 4, image[0][2] = 550 // 4 = 137
+   - For `(1, 0)`: sum = 850, cnt = 6, image[1][0] = 850 // 6 = 141
+   - For `(1, 1)`: sum = 1250, cnt = 9, image[1][1] = 1250 // 9 = 138
+   - For `(1, 2)`: sum = 850, cnt = 6, image[1][2] = 850 // 6 = 141
+   - For `(2, 0)`: sum = 550, cnt = 4, image[2][0] = 550 // 4 = 137
+   - For `(2, 1)`: sum = 850, cnt = 6, image[2][1] = 850 // 6 = 141
+   - For `(2, 2)`: sum = 550, cnt = 4, image[2][2] = 550 // 4 = 137
+
+**Output:** `[[137,141,137],[141,138,141],[137,141,137]]`
