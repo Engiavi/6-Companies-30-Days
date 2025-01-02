@@ -93,3 +93,61 @@ The idea is to find the point on the rectangle that is closest to the circle's c
    - `0 <= 1 * 1 = 1`
 
    Since this condition is true, the circle and rectangle overlap, so the output is `true`.
+
+
+# Q2:- Find the Winner of the Circular Game
+There are n friends that are playing a game. The friends are sitting in a circle and are numbered from 1 to n in clockwise order. More formally, moving clockwise from the ith friend brings you to the (i+1)th friend for 1 <= i < n, and moving clockwise from the nth friend brings you to the 1st friend.
+
+### Rules of the Game:
+1. Start at the 1st friend.
+2. Count the next k friends in the clockwise direction including the friend you started at. The counting wraps around the circle and may count some friends more than once.
+3. The last friend you counted leaves the circle and loses the game.
+4. If there is still more than one friend in the circle, go back to step 2 starting from the friend immediately clockwise of the friend who just lost and repeat.
+5. Else, the last friend in the circle wins the game.
+
+Given the number of friends, n, and an integer k, return the winner of the game.
+
+### Approach:
+The problem can be solved using the Josephus problem solution. We can use an iterative approach to find the winner.
+
+1. Initialize the result as 0.
+2. Iterate from 2 to n (inclusive).
+3. Update the result using the formula: `res = (res + k) % player_num`.
+4. Return `res + 1` as the winner.
+
+### Dry Run Examples
+
+#### Example 1:
+
+**Input:**
+- `n = 5`
+- `k = 2`
+
+**Steps:**
+1. Initialize `res = 0`.
+2. For `player_num = 2`: `res = (0 + 2) % 2 = 0`
+3. For `player_num = 3`: `res = (0 + 2) % 3 = 2`
+4. For `player_num = 4`: `res = (2 + 2) % 4 = 0`
+5. For `player_num = 5`: `res = (0 + 2) % 5 = 2`
+
+So, the winner is `res + 1 = 2 + 1 = 3`.
+
+**Output:** `3`
+
+#### Example 2:
+
+**Input:**
+- `n = 6`
+- `k = 5`
+
+**Steps:**
+1. Initialize `res = 0`.
+2. For `player_num = 2`: `res = (0 + 5) % 2 = 1`
+3. For `player_num = 3`: `res = (1 + 5) % 3 = 0`
+4. For `player_num = 4`: `res = (0 + 5) % 4 = 1`
+5. For `player_num = 5`: `res = (1 + 5) % 5 = 1`
+6. For `player_num = 6`: `res = (1 + 5) % 6 = 0`
+
+So, the winner is `res + 1 = 0 + 1 = 1`.
+
+**Output:** `1`
