@@ -209,3 +209,92 @@ An image smoother is a filter of the size 3 x 3 that can be applied to each cell
    - For `(2, 2)`: sum = 550, cnt = 4, image[2][2] = 550 // 4 = 137
 
 **Output:** `[[137,141,137],[141,138,141],[137,141,137]]`
+
+
+# Minimum Cost to Convert String
+
+## Problem Statement
+Given two strings `source` and `target` of the same length, and three arrays `original`, `changed`, and `cost` where `original[i]` can be converted to `changed[i]` with a cost of `cost[i]`, find the minimum cost to convert `source` to `target`. If it is not possible to convert `source` to `target`, return `-1`.
+
+## Approach
+1. **Graph Representation**: Represent the conversion rules as a graph where each character is a node, and edges represent the conversion cost.
+2. **Shortest Path Calculation**: Use Dijkstra's algorithm to calculate the shortest path between all pairs of nodes.
+3. **Cost Calculation**: Calculate the total cost to convert `source` to `target` using the precomputed shortest paths.
+
+## Algorithm
+1. Initialize an adjacency list `adj` for the graph.
+2. Populate the adjacency list using the `original`, `changed`, and `cost` arrays.
+3. Initialize a 2D array `dist` to store the shortest path costs between all pairs of characters.
+4. For each character, use Dijkstra's algorithm to compute the shortest path to all other characters.
+5. Initialize `ans` to 0 to store the total conversion cost.
+6. Iterate through each character of `source` and `target`:
+   - Calculate the indices `x` and `y` corresponding to the characters in `source` and `target` respectively.
+   - If `x` is not equal to `y`:
+     - If `dist[x][y]` is equal to a large value (indicating no possible conversion), return `-1`.
+     - Otherwise, add `dist[x][y]` to `ans`.
+7. Return `ans` as the minimum cost.
+
+## Dry Run
+
+### Example 1:
+**Input:**
+- `source = "abcd"`
+- `target = "acbe"`
+- `original = ["a","b","c","c","e","d"]`
+- `changed = ["b","c","b","e","b","e"]`
+- `cost = [2,5,5,1,2,20]`
+
+**Steps:**
+1. Build the adjacency list:
+   - `a -> b (2)`
+   - `b -> c (5)`
+   - `c -> b (5)`
+   - `c -> e (1)`
+   - `e -> b (2)`
+   - `d -> e (20)`
+2. Compute shortest paths using Dijkstra's algorithm.
+3. Calculate the total cost:
+   - `a -> c`: `a -> b -> c` (2 + 5 = 7)
+   - `b -> c`: `b -> c` (5)
+   - `c -> b`: `c -> e -> b` (1 + 2 = 3)
+   - `d -> e`: `d -> e` (20)
+   - Total cost = 7 + 0 + 3 + 20 = 28
+4. Return `28`.
+
+### Example 2:
+**Input:**
+- `source = "aaaa"`
+- `target = "bbbb"`
+- `original = ["a","c"]`
+- `changed = ["c","b"]`
+- `cost = [1,2]`
+
+**Steps:**
+1. Build the adjacency list:
+   - `a -> c (1)`
+   - `c -> b (2)`
+2. Compute shortest paths using Dijkstra's algorithm.
+3. Calculate the total cost:
+   - `a -> b`: `a -> c -> b` (1 + 2 = 3)
+   - Total cost = 3 + 3 + 3 + 3 = 12
+4. Return `12`.
+
+### Example 3:
+**Input:**
+- `source = "abcd"`
+- `target = "abce"`
+- `original = ["a"]`
+- `changed = ["e"]`
+- `cost = [10000]`
+
+**Steps:**
+1. Build the adjacency list:
+   - `a -> e (10000)`
+2. Compute shortest paths using Dijkstra's algorithm.
+3. Calculate the total cost:
+   - `d -> e`: No direct or indirect path
+   - Return `-1`.
+
+## Time and Space Complexity
+- **Time Complexity** : 𝑂 ( 𝐸 + 𝑛 ) O(E+n), where 𝐸 E is the number of transformation rules and 𝑛 n is the length of the source string. 
+- **Space Complexity**: 𝑂 ( 𝐸 ) O(E).
